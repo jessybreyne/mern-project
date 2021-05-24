@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
+import LeftNav from '../components/LeftNav';
+import Thread from '../components/Thread';
 
 function Home() {
     return (
-        <div>
-            hello depuis home
+        <div className="home">
+            <LeftNav />
+            <div className="main">
+                <Thread />
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;
