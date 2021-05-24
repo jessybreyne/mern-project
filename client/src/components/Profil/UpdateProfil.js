@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateBio } from '../../actions/user.actions';
 import LeftNav from '../LeftNav';
+import { dateParser } from '../Utils';
 import UploadImg from './UploadImg';
 
 function UpdateProfil() {
@@ -40,7 +41,8 @@ function UpdateProfil() {
                                 <button onClick={() => handleUpdate()}>Valider modification</button>
                             </>
                         )}
-                    </div>    
+                    </div> 
+                    <h4>Membre depuis le : {dateParser(userData.createdAt)}</h4>
                 </div>           
             </div>
         </div>
