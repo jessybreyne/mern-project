@@ -76,7 +76,6 @@ function UpdateProfil() {
             </span>
             <ul>
               {
-                // eslint-disable-next-line
                 usersData.map((user) => {
                   for (let i = 0; i < userData.following.length; i++) {
                     if (user._id === userData.following[i]) {
@@ -89,8 +88,9 @@ function UpdateProfil() {
                           </div>
                         </li>
                       );
-                    }
+                    } 
                   }
+                  return null;
                 })
               }
             </ul>
@@ -106,7 +106,6 @@ function UpdateProfil() {
             </span>
             <ul>
               {
-                // eslint-disable-next-line
                 usersData.map((user) => {
                   for (let i = 0; i < userData.followers.length; i++) {
                     if (user._id === userData.followers[i]) {
@@ -121,6 +120,7 @@ function UpdateProfil() {
                       );
                     }
                   }
+                  return null;
                 })
               }
             </ul>

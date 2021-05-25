@@ -24,9 +24,9 @@ function Card({ post }) {
               src={
                 !isEmpty(usersData[0]) &&
                 usersData
-                  // eslint-disable-next-line
                   .map((user) => {
                     if (user._id === post.posterId) return user.picture;
+                    else return null;
                   })
                   .join("")
               }
@@ -39,9 +39,9 @@ function Card({ post }) {
                 <h3>
                   {!isEmpty(usersData[0]) &&
                     usersData
-                      // eslint-disable-next-line
                       .map((user) => {
                         if (user._id === post.posterId) return user.pseudo;
+                        else return null;
                       })
                       .join("")}
                 </h3>
@@ -72,7 +72,6 @@ function Card({ post }) {
               <LikeButton post={post} />
               <img src="./img/icons/share.svg" alt="share" />
             </div>
-
           </div>
         </>
       )}
