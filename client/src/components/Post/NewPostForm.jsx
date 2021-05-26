@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { addPost, getPosts } from '../../actions/post.actions';
 import { isEmpty, timestampParser } from '../Utils';
 
 function NewPostForm() {
@@ -10,29 +11,32 @@ function NewPostForm() {
   const [video, setVideo] = useState('');
   const [file, setFile] = useState();
   const userData = useSelector((state) => state.userReducer);
+  const error = useSelector((state) => state.errorReducer.postError);
+  const dispatch = useDispatch();
 
-  const handlePost = () => {
+  const handlePost = async (e) => {
+    e.preventDefault();
+    if (message || postPicture || video) {
+      const data = new FormData();
+      data.append("posterId", userData._id);
+      data.append("message", message);
+      if (file) {
+        data.append("file", file);
+      }
+      data.append("video", video);
 
-  }
+      await dispatch(addPost(data));
+      dispatch(getPosts());
+      cancelPost();
+    } else {
+      alert("Veuillez entrer un message");
+    }
+  };
 
   const handlePicture = (e) => {
-
-  }
-
-  const handleVideo = () => {
-    let findLink = message.split(" ");
-    for (let i = 0; i < findLink.length; i++) {
-      if (
-        findLink[i].includes("https://www.youtube.com") ||
-        findLink[i].includes("https://youtube.com")
-      ) {
-        let embed = findLink[i].replace("watch?v=", "embed/");
-        setVideo(embed.split("&t=")[0]);
-        findLink.splice(i, 1);
-        setMessage(findLink.join(' '));
-        setPostPicture('');
-      }
-    }
+    setPostPicture(URL.createObjectURL(e.target.files[0]));
+    setFile(e.target.files[0]);
+    setVideo('');
   };
 
   const cancelPost = () => {
@@ -44,6 +48,22 @@ function NewPostForm() {
 
   useEffect(() => {
     if(!isEmpty(userData)) setIsLoading(false);
+
+    const handleVideo = () => {
+      let findLink = message.split(" ");
+      for (let i = 0; i < findLink.length; i++) {
+        if (
+          findLink[i].includes("https://www.youtube.com") ||
+          findLink[i].includes("https://youtube.com")
+        ) {
+          let embed = findLink[i].replace("watch?v=", "embed/");
+          setVideo(embed.split("&t=")[0]);
+          findLink.splice(i, 1);
+          setMessage(findLink.join(' '));
+          setPostPicture('');
+        }
+      }
+    };
     handleVideo();
   },[userData, message, video])
 
@@ -116,7 +136,7 @@ function NewPostForm() {
                       id="file-upload"
                       name="file"
                       accept=".jpg, .jpeg, .png"
-                      onChange={(e) => handlePicture()}
+                      onChange={handlePicture}
                     />
                   </>
                 )}
@@ -124,11 +144,18 @@ function NewPostForm() {
                   <button onClick={() => setVideo("")}>Supprimer vidéo</button>
                 )}
               </div>
+              {!isEmpty(error.format) && <p>{error.format}</p>}
+              {!isEmpty(error.maxSize) && <p>{error.maxSize}</p>}
               <div className="btn-send">
                 {message || postPicture || video.length > 20 ? (
+                  <>
+                  {postPicture && (
+                    <button onClick={() => setPostPicture("")}>Supprimer image</button>
+                  )}
                   <button className="cancel" onClick={cancelPost}>
                     Annuler message
                   </button>
+                  </>
                 ) : null}
                 <button className="send" onClick={handlePost}>
                   Envoyer
