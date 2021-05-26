@@ -33,14 +33,12 @@ export const getPosts = (num) => {
 export const addPost = (data) => {
   return (dispatch) => {
     return axios
-      .post(`${process.env.REACT_APP_API_URL}api/post`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(`${process.env.REACT_APP_API_URL}api/post`, data)
       .then((res) => {
         if (res.data.errors) {
           dispatch({ type: GET_POST_ERRORS, payload: res.data.errors });
+        } else {
+          dispatch({ type: GET_POST_ERRORS, payload: "" });
         }
       })
       .catch((err) => console.log(err));
