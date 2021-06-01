@@ -3,10 +3,12 @@
 Réseau social en React JS, MongoDB et NodeJS.
 
 Configuration : Créer un fichier /config/.env avec dedans:
+```
 PORT=5000
 DB_USER_PASS=login:passmongo
 TOKEN_SECRET=secretoken
 CLIENT_URL=http://localhost:3000
+```
 
 npm start à la racine pour lancer nodejs
 npm start dans le dossier client pour lancer la vue ReactJS
