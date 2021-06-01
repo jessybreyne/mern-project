@@ -10,8 +10,18 @@ TOKEN_SECRET=secretoken
 CLIENT_URL=http://localhost:3000
 ```
 
-npm start à la racine pour lancer nodejs
-npm start dans le dossier client pour lancer la vue ReactJS
+à la racine pour lancer nodejs:
+```
+npm i
+npm start
+``` 
+
+Dans le dossier client pour lancer la vue ReactJS:
+```
+npm i
+npm start
+``` 
+
 
 Attention, la sécurité est mal gérée dans le projet, il faut par exemple vérifier l'authentification de l'utilisateur avant de faire certaines actions.
 
